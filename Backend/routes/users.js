@@ -3,7 +3,7 @@ const router = express.Router();
 const Users = require('../models/Users');
 const verifyToken = require('../middlewares/verifyToken');
 
-// [Get all users] "http://localhost:5000/api/users" using "GET" (auth) Required.
+// GET-ALL-USERS = (GET="http://localhost:5000/api/users")=(auth Required).
 router.get('/', verifyToken, async (req, res) => {
     try {
         const users = await Users.find();
@@ -13,7 +13,7 @@ router.get('/', verifyToken, async (req, res) => {
     }
 });
 
-// [Create a new user] "http://localhost:5000/api/users" using "POST" (no-auth) Required.
+// CREATE-NEW-USER = (POST="http://localhost:5000/api/users")=(no-auth Required).
 router.post('/', async (req, res) => {
     const data = req.body
     const user = new Users(data);
@@ -25,7 +25,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-// [Login user] "http://localhost:5000/api/users/login" using "POST" (auth) Required.
+// LOGIN-USER = (POST="http://localhost:5000/api/users/login")=(auth Required).
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
@@ -51,7 +51,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
-// [Update a user] "http://localhost:5000/api/users/userid" using "PUT" (auth) Required.
+// UPDATE-USER = (PUT="http://localhost:5000/api/users/userid")=(auth Required).
 router.put('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
     const data = req.body;
@@ -64,7 +64,7 @@ router.put('/:id', verifyToken, async (req, res) => {
     }
 });
 
-// [Delete a user] "http://localhost:5000/api/users/userid" using "DELETE" (auth) Required.
+// DELETE-USER = (DELETE="http://localhost:5000/api/users/userid")=(auth Required).
 router.delete('/:id', verifyToken, async (req, res) => {
     const { id } = req.params;
 
@@ -76,7 +76,7 @@ router.delete('/:id', verifyToken, async (req, res) => {
     }
 });
 
-// [Get details of the logged-in user] "http://localhost:5000/api/users/profile" using "GET" (auth) Required.
+// GET-LOGGEDIN-USER-DETAILS = (GET="http://localhost:5000/api/users/profile")=(auth Required).
 router.get('/profile', verifyToken, async (req, res) => {
     try {
         const { _id } = req.decoded

@@ -7,8 +7,8 @@ function verifyToken(req, res, next) {
         return res.send({ message: "Unable to access!" });
     }
     token = token.slice(7);
-    jwt.verify(token, secret, (err, decoded) => {
-        if (err) {
+    jwt.verify(token, secret, (error, decoded) => {
+        if (error) {
             res.status(401).json({ message: 'Authentication failed' });
         }
         req.decoded = decoded;
