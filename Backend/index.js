@@ -2,7 +2,7 @@ const express = require("express");
 require('dotenv').config();
 const app = express();
 const db = require("./config/db");
-// const cors = require('cors')
+const cors = require('cors')
 
 // Connect To MongoDB.
 db.connection.once("open", () => { console.log('✔✔ connect to MongoDB ✔✔') }).on("error", (err) => { console.log('Connection error ==> ', err) })
@@ -15,7 +15,7 @@ app.listen(PORT, () => {
 })
 
 app.use(express.json());
-// app.use(cors());
+app.use(cors());
 
 // Main Route.
 app.use('/', require('./routes/index.js'));

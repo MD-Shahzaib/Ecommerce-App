@@ -1,9 +1,22 @@
-import React from 'react'
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+// Components.
+import Navbar from './components/Navbar';
+import ProductListing from './components/ProductListing';
+import ProductDetails from './components/ProductDetails';
+import Footer from './components/Footer';
 
-const App = () => {
+function App() {
   return (
-    <div>App</div>
-  )
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<ProductListing />} />
+        <Route path="/:id" element={<ProductDetails />} />
+      </Routes>
+      <Footer />
+    </>
+  );
 }
 
 export default App;
