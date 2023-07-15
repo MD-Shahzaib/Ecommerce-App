@@ -45,28 +45,6 @@ function ProductListing() {
                     </div>
                 </div>
             </section>
-            {/* <section className="text-gray-600 body-font">
-                <div className="container px-5 py-24 mx-auto">
-                    <div className="flex flex-wrap -m-4">
-                        {products.map((product) => {
-                            return (
-                                <div key={product._id} className="lg:w-1/4 md:w-1/2 p-4 w-full border">
-                                    <Link to={product._id} className="block relative h-48 rounded overflow-hidden">
-                                        <img alt={product.name} className="object-cover object-center w-full h-full block" src={product.image} />
-                                    </Link>
-                                    <div className="mt-4">
-                                        <h4 className="text-gray-700 font-semibold text-xs mb-1">BRAND : {product.brand}</h4>
-                                        <h3 className="text-gray-500 text-xs tracking-widest title-font mb-1">CATEGORY : {product.category}</h3>
-                                        <h2 className="text-gray-900 title-font text-lg font-medium">{product.name}</h2>
-                                        <p className="mt-1">${product.price}</p>
-                                        <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mt-4">Add to Cart</button>
-                                    </div>
-                                </div>
-                            )
-                        })}
-                    </div>
-                </div>
-            </section> */}
         </>
     );
 }

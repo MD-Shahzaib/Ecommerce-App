@@ -8,6 +8,8 @@ import ProductListing from './screens/ProductListing';
 import ProductDetails from './screens/ProductDetails';
 import Login from './screens/Login';
 import Register from './screens/Register';
+import ShopCart from './screens/ShopCart';
+import CheckoutPage from './screens/CheckoutPage';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/:id" element={<ProductDetails />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/cart" element={<ShopCart />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
       </Routes>
       <Footer />
     </>

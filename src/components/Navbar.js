@@ -9,6 +9,7 @@ const Navbar = () => {
                 <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
                     <Link to="/login" className="mr-5 hover:text-white">Login</Link>
                     <Link to="/register" className="mr-5 hover:text-white">Register</Link>
+                    <Link to="/cart" className="mr-5 hover:text-white">Cart</Link>
                 </nav>
             </div>
         </header>
