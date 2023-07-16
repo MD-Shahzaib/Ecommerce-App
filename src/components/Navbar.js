@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
 
 const Navbar = () => {
+    const { cartItems } = useContext(CartContext);
+
     return (
         <header className="text-gray-400 bg-gray-900 body-font">
             <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
@@ -9,7 +12,7 @@ const Navbar = () => {
                 <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
                     <Link to="/login" className="mr-5 hover:text-white">Login</Link>
                     <Link to="/register" className="mr-5 hover:text-white">Register</Link>
-                    <Link to="/cart" className="mr-5 hover:text-white">Cart</Link>
+                    <Link to="/cart" className="mr-5 hover:text-white">Cart ({cartItems.length})</Link>
                 </nav>
             </div>
         </header>
