@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { CartProvider } from './context/CartContext';
 // Components.
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -14,16 +15,18 @@ import CheckoutPage from './screens/CheckoutPage';
 function App() {
   return (
     <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<ProductListing />} />
-        <Route path="/:id" element={<ProductDetails />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/cart" element={<ShopCart />} />
-        <Route path="/checkout" element={<CheckoutPage />} />
-      </Routes>
-      <Footer />
+      <CartProvider>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<ProductListing />} />
+          <Route path="/:id" element={<ProductDetails />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cart" element={<ShopCart />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+        </Routes>
+        <Footer />
+      </CartProvider>
     </>
   );
 }
