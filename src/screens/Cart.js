@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 
-const ShopCart = () => {
+const Cart = () => {
 
     const { cartItems, clearCart, removeFromCart, incrementQuantity, decrementQuantity } = useContext(CartContext);
     const cartTotal = cartItems.reduce((total, item) => total + item.price, 0);
@@ -65,4 +65,4 @@ const ShopCart = () => {
     );
 };
 
-export default ShopCart;
+export default Cart;

@@ -2,14 +2,14 @@ const jwt = require('jsonwebtoken')
 const secret = require("../config/jwt");
 
 function verifyToken(req, res, next) {
-    let token = req.headers.authorization;
+    const token = req.headers.authorization;
     if (!token) {
-        return res.send({ message: "Unable to access!" });
+        return res.status(401).json({ message: "Unable to access!" });
     }
-    token = token.slice(7);
-    jwt.verify(token, secret, (error, decoded) => {
-        if (error) {
-            res.status(401).json({ message: 'Authentication failed' });
+    const tokenString = token.slice(7); // Remove 'Bearer ' from the token string.
+    jwt.verify(tokenString, secret, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ message: 'Invalid Token' });
         }
         req.decoded = decoded;
         next();

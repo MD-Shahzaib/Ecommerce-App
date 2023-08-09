@@ -10,94 +10,59 @@ const Register = () => {
     const [phone, setPhone] = useState('');
 
     const handleRegister = async (e) => {
-        e.preventDefault();
         try {
-            const response = await fetch('http://localhost:5000/api/users', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password, phone }),
+            e.preventDefault();
+            const response = await fetch("http://localhost:5000/api/users", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, email, password, phone })
             });
-            console.log(response);
-            if (response.ok) {
-                console.log(response);
-                navigate("/");
+            if (response.status === 201) {
+                navigate('/login')
             } else {
-                alert('Registration failed');
+                alert("Registration failed, try again Later");
             }
+            // Reset form fields after submission
+            setName('');
+            setEmail('');
+            setPassword('');
+            setPhone('');
         } catch (error) {
-            console.error('Error during registration:', error);
+            alert("Internal Server Error");
         }
     };
 
     return (
-        <section className="bg-gray-50">
-            <div className="flex flex-col items-center justify-start px-6 py-8 mx-auto lg:py-0">
-                <div className="w-full bg-white rounded-lg shadow my-8 md:my-4 sm:max-w-md xl:p-0">
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-2xl font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl">Create your Account</h1>
-                        <form className="space-y-4 md:space-y-6" onSubmit={handleRegister}>
-                            <div>
-                                <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Your name</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    id="name"
-                                    placeholder="Your name"
-                                    value={name}
-                                    onChange={(e) => { setName(e.target.value) }}
-                                    required=""
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    placeholder="name@company.com"
-                                    value={email}
-                                    onChange={(e) => { setEmail(e.target.value) }}
-                                    required=""
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="••••••••"
-                                    required=""
-                                    value={password}
-                                    onChange={(e) => { setPassword(e.target.value) }}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="phone" className="block mb-2 text-sm font-medium text-gray-900">Your Phone</label>
-                                <input
-                                    type="tel"
-                                    name="phone"
-                                    id="phone"
-                                    placeholder="Phone number (123-456-7890)"
-                                    required=""
-                                    value={phone}
-                                    onChange={(e) => { setPhone(e.target.value) }}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                />
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <Link to="/" className="text-sm font-medium text-blue-600 hover:underline">Forgot password?</Link>
-                            </div>
-                            <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign Up</button>
-                            <p className="text-sm font-normal text-gray-500">Already have an account? <Link to="/login" className="font-medium text-blue-600 hover:underline">Sign in</Link></p>
-                        </form>
-                    </div>
+        <>
+            <div className="bg-slate-200">
+                <div className="flex justify-center items-center py-10 min-h-screen">
+                    <form
+                        className="w-full max-w-sm p-6 bg-white shadow-md rounded-lg"
+                        onSubmit={handleRegister}
+                    >
+                        <h2 className="text-2xl font-semibold text-center mb-4">Create your account</h2>
+                        <div className="mb-4">
+                            <label htmlFor="name" className="block text-sm font-medium mb-1">Name:</label>
+                            <input type="text" id="name" placeholder="Your name" value={name} onChange={(e) => setName(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" required />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="email" className="block text-sm font-medium mb-1">Email:</label>
+                            <input type="email" id="email" placeholder="Your email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" required />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="password" className="block text-sm font-medium mb-1">Password:</label>
+                            <input type="password" id="password" placeholder="••••••" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" required minLength={6} />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="phone" className="block text-sm font-medium mb-1">Phone:</label>
+                            <input type="tel" id="phone" placeholder="Phone number (123-456-7890)" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" required minLength={6} />
+                        </div>
+                        <button type="submit" role="button" className="w-full px-4 py-2 mb-4 font-semibold text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600">Sign Up</button>
+                        <p className="text-blue-500 text-center text-sm font-normal hover:text-blue-600">Already have an account? <Link to='/login' className="text-blue-600 font-semibold hover:text-blue-700"> Sign In</Link></p>
+                    </form>
                 </div>
             </div>
-        </section>
+        </>
     );
 };
 

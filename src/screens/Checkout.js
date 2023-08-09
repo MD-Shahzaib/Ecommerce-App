@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function CheckoutPage() {
+function Checkout() {
     const [cardNumber, setCardNumber] = useState('');
     const [cardExpiry, setCardExpiry] = useState('');
     const [cardCvc, setCardCvc] = useState('');
@@ -79,4 +79,4 @@ function CheckoutPage() {
     );
 }
 
-export default CheckoutPage;
+export default Checkout;

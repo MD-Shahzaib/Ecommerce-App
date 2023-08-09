@@ -2,59 +2,55 @@ const express = require('express');
 const router = express.Router();
 const Products = require('../models/Products');
 
-// GET-ALL-PRODUCTS = (GET="http://localhost:5000/api/products")=(no-auth Required).
+// Get-Products (Endpoint: "http://localhost:5000/api/products" using "GET" (auth) Required).
 router.get('/', async (req, res) => {
     try {
         const products = await Products.find();
-        res.json(products);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
-    }
+        // res.status(200).json(products);
+        res.status(200).json({ message: "Success", products });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching users", error });
+    };
 });
 
-// GET-SPECIFIC-PRODUCTS = (GET="http://localhost:5000/api/products/productId")=(no-auth Required).
+// Get-Specific-Product (Endpoint: "http://localhost:5000/api/products/:id" using "GET" (auth) Required).
 router.get('/:id', async (req, res) => {
-    const _id = req.params.id;
     try {
-        const specificProduct = await Products.findById(_id);
-        res.status(201).json(specificProduct);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        const specificProduct = await Products.findById(req.params.id);
+        res.status(200).json({ message: "Success", data: specificProduct });
+    } catch (error) {
+        res.status(500).json({ message: "Error fetching product", error });
     }
 });
 
-// CREATE-PRODUCTS = (POST="http://localhost:5000/api/products")=(auth Required).
+// Create-Product (Endpoint: "http://localhost:5000/api/products" using "POST" (auth) Required).
 router.post('/', async (req, res) => {
-    const data = req.body;
-    const product = new Products(data);
     try {
-        const newProduct = await product.save();
-        res.status(201).json(newProduct);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+        const product = new Users(req.body);
+        await product.save();
+        res.status(201).json({ message: 'Success', product });
+    } catch (error) {
+        res.status(500).json({ message: "Error on add product", error });
     }
 });
 
-// UPDATE-PRODUCTS = (PUT="http://localhost:5000/api/products/productId")=(auth Required).
+// Update-Product (Endpoint: "http://localhost:5000/api/products/:id" using "PUT" (auth) Required).
 router.put('/:id', async (req, res) => {
-    const _id = req.params.id;
-    const data = req.body;
     try {
-        const updateProduct = await Products.findByIdAndUpdate(_id, data);
-        res.status(201).json(updateProduct);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
+        await Products.findByIdAndUpdate(req.params.id, req.body, { new: true })
+        res.status(200).json({ message: 'Success' });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating product", error });
     }
 })
 
-// DELETE-PRODUCTS = (DELETE="http://localhost:5000/api/products/productId")=(auth Required).
+// Delete-Product (Endpoint: "http://localhost:5000/api/products/:id" using "DELETE" (auth) Required).
 router.delete('/:id', async (req, res) => {
-    const _id = req.params.id;
     try {
-        const deleteProduct = await Products.findByIdAndDelete(_id);
-        res.status(201).json(deleteProduct);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+        await Products.findByIdAndDelete(req.params.id)
+        res.status(200).json({ message: 'Success' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting product', error });
     }
 });
 

@@ -1,76 +1,52 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const navigate = useNavigate();
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
+    const navigate = useNavigate();
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
+    // Login User.
     const handleLogin = async (e) => {
-        e.preventDefault();
         try {
+            e.preventDefault();
             const response = await fetch('http://localhost:5000/api/users/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ email, password }),
             });
-            if (response.ok) {
+            if (response.status === 200) {
                 const { token } = await response.json();
-                localStorage.setItem('Token', token);
-                navigate("/");
+                localStorage.setItem('authToken', token);
+                navigate('/');
+                window.location.reload();
             } else {
-                alert('Authentication failed');
+                alert("Invalid Credentials");
             }
         } catch (error) {
-            console.error('Error during login:', error);
+            alert('Internal Server Error');
         }
     };
 
     return (
-        <section className="bg-gray-50">
-            <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-                <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
-                    <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 className="text-2xl font-semibold leading-tight tracking-tight text-gray-900 md:text-2xl">Sign in to your account</h1>
-                        <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
-                            <div>
-                                <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    id="email"
-                                    placeholder="name@company.com"
-                                    value={email}
-                                    onChange={(e) => { setEmail(e.target.value) }}
-                                    required=""
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="password"
-                                    placeholder="••••••••"
-                                    required=""
-                                    value={password}
-                                    onChange={(e) => { setPassword(e.target.value) }}
-                                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5"
-                                />
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <Link to="/" className="text-sm font-medium text-blue-600 hover:underline">Forgot password?</Link>
-                            </div>
-                            <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Sign in</button>
-                            <p className="text-sm font-normal text-gray-500">
-                                Don’t have an account yet? <Link to="/register" className="font-medium text-blue-600 hover:underline">Sign up</Link>
-                            </p>
-                        </form>
+        <div className="bg-slate-200">
+            <div className="flex justify-center items-center min-h-screen py-10">
+                <form className="w-full max-w-sm p-6 bg-white shadow-md rounded-lg" onSubmit={handleLogin}>
+                    <h2 className="text-2xl font-semibold text-center mb-4">Sign In to your account</h2>
+                    <div className="mb-4">
+                        <label htmlFor="email" className="block text-sm font-medium">Email:</label>
+                        <input type="email" id="email" placeholder="Your email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" required />
                     </div>
-                </div>
+                    <div className="mb-4">
+                        <label htmlFor="password" className="block text-sm font-medium">Password:</label>
+                        <input type="password" id="password" placeholder="••••••" value={password} onChange={(e) => setPassword(e.target.value)} className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-300" required minLength={6} />
+                    </div>
+                    <button type="submit" role="button" className="w-full px-4 py-2 mb-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:bg-blue-600 font-semibold">Sign In</button>
+                    <p className="text-blue-500 text-center text-sm font-normal hover:text-blue-600">Don't have an account? <Link to='/register' className="text-blue-600 font-semibold hover:text-blue-700"> Sign Up</Link></p>
+                </form>
             </div>
-        </section>
+        </div>
     );
 };
 

@@ -1,80 +1,53 @@
-// import React, { createContext, useEffect, useState } from 'react';
-
-// // UserContext
-// export const UserContext = createContext();
-
-// export const UserProvider = ({ children }) => {
-//     const [user, setUser] = useState(null);
-
-//     useEffect(() => {
-//         // Check if user data exists in local storage
-//         const userData = localStorage.getItem('user');
-//         if (userData) {
-//             setUser(JSON.parse(userData));
-//         }
-//     }, []);
-
-//     useEffect(() => {
-//         // Save user data to local storage when it changes
-//         localStorage.setItem('user', JSON.stringify(user));
-//     }, [user]);
-
-//     const login = (userData) => {
-//         setUser(userData);
-//     };
-
-//     const logout = () => {
-//         setUser(null);
-//     };
-
-//     return (
-//         <UserContext.Provider value={{ user, login, logout }}>
-//             {children}
-//         </UserContext.Provider>
-//     );
-// };
-
-
-
-
-
-
+// This code defines a React context and context provider for managing user information.
 import React, { createContext, useState, useEffect } from 'react';
 
+// Create a context to hold user-related data and functions.
 export const UserContext = createContext();
 
+// Define a component that will serve as the provider for the UserContext.
 export const UserContextProvider = ({ children }) => {
 
+    // State to hold the user data.
     const [user, setUser] = useState(null);
 
+    // useEffect hook to fetch the user profile when the component mounts.
     useEffect(() => {
         const fetchUser = async () => {
-            const token = localStorage.getItem('UserInfo');
-            if (token) {
-                const authToken = JSON.parse(token).token;
-                try {
-                    const response = await fetch("http://localhost:5000/users/profile", {
-                        headers: { Authorization: `Bearer ${authToken}` },
+            try {
+                // Get the authentication token from local storage.
+                const token = localStorage.getItem('authToken');
+                if (token) {
+                    // Send a request to fetch the user profile using the token.
+                    const response = await fetch("http://localhost:5000/api/users/profile", {
+                        headers: { Authorization: `Bearer ${token}` },
                     });
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user data');
+                    }
+                    // Parse the response and update the user state.
                     const userData = await response.json();
-                    setUser(userData.data);
-                } catch (error) {
-                    console.log(error);
+                    setUser(userData.userProfile);
+                } else {
+                    // If no token is found, set the user state to null.
                     setUser(null);
                 }
-            } else {
+            } catch (error) {
+                // Handle errors by setting the user state to null.
                 setUser(null);
             }
         }
+        // Call the fetchUser function when the component mounts.
         fetchUser();
     }, []);
 
+    // Function to handle user logout.
     const handleLogout = () => {
-        localStorage.removeItem('UserInfo');
-        setUser(null);
-        window.location.reload();
+        localStorage.removeItem('authToken'); // Remove the authToken.
+        setUser(null); // Set the user state to null.
+        window.location.reload(); // Reload to reflect the logout.
     };
 
+    // Provide the user data and logout function to the components in the context.
     return (
         <UserContext.Provider value={{ user, handleLogout }}>
             {children}

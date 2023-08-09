@@ -1,34 +1,59 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { CartProvider } from './context/CartContext';
+import React, { useContext } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { UserContext } from './context/UserContext';
 // Components.
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Page404 from './components/Page404';
 // Screens.
 import ProductListing from './screens/ProductListing';
 import ProductDetails from './screens/ProductDetails';
+import Cart from './screens/Cart';
+import Checkout from './screens/Checkout';
 import Login from './screens/Login';
 import Register from './screens/Register';
-import ShopCart from './screens/ShopCart';
-import CheckoutPage from './screens/CheckoutPage';
+
+// Protected-Route.
+function ProtectedRoute({ user, route, navigateTo }) {
+  return user ? route : <Navigate to={navigateTo} replace={true} />
+};
 
 function App() {
+  const { user } = useContext(UserContext);
   return (
-    <>
-      <CartProvider>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<ProductListing />} />
-          <Route path="/:id" element={<ProductDetails />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/cart" element={<ShopCart />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-        </Routes>
-        <Footer />
-      </CartProvider>
-    </>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={
+          <ProtectedRoute user={user} route={<ProductListing />} navigateTo='/login' />
+        } />
+        <Route path="/:id" element={
+          <ProtectedRoute user={user} route={<ProductDetails />} navigateTo='/login' />
+        } />
+        <Route path="/cart" element={
+          <ProtectedRoute user={user} route={<Cart />} navigateTo='/login' />
+        } />
+        <Route path="/checkout" element={
+          <ProtectedRoute user={user} route={<Checkout />} navigateTo='/login' />
+        } />
+        <Route path="/register" element={
+          <ProtectedRoute user={!user} route={<Register />} navigateTo='/' />
+        } />
+        <Route path="/login" element={
+          <ProtectedRoute user={!user} route={<Login />} navigateTo='/' />
+        } />
+        <Route path="*" element={<Page404 />} />
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
 
 export default App;
+
+/*
+TODOS
+- screens [productDetails, Cart, Checkout]
+- components
+- context
+*/

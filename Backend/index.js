@@ -1,21 +1,22 @@
-const express = require("express");
 require('dotenv').config();
-const app = express();
+const express = require("express");
+const cors = require('cors');
 const db = require("./config/db");
-const cors = require('cors')
 
-// Connect To MongoDB.
-db.connection.once("open", () => { console.log('✔✔ connect to MongoDB ✔✔') }).on("error", (err) => { console.log('Connection error ==> ', err) })
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-const PORT = process.env.PORT || 4000;
-
-// Starting Server.
-app.listen(PORT, () => {
-    console.log(`Server is running on port :${PORT}`);
-})
-
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Main Route.
+// Connect To MongoDB.
+db.connection.once("open", () => { console.log('✔✔ Connected to MongoDB ✔✔') }).on("error", (err) => { console.log('❌❌ Connection error ❌❌==>', err) });
+
+// Main Routes.
 app.use('/', require('./routes/index.js'));
+
+// Starting Server.
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
