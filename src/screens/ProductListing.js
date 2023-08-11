@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CartContext } from '../context/CartContext';
 
 function ProductListing() {
-    const { addToCart } = useContext(CartContext);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -34,14 +32,12 @@ function ProductListing() {
                                     <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <Link to={product._id}><img className="lg:h-48 md:h-36 w-full object-cover object-center" src={product.image} alt={product.name} /></Link>
                                         <div className="p-4">
-                                            <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">CATEGORY : {product.category}</h2>
-                                            <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{product.name}</h1>
-                                            <h2 className="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">BRAND : {product.brand}</h2>
-                                            <p className="leading-relaxed mb-3">{product.description}</p>
-                                            <div className="flex items-center flex-wrap ">
-                                                <button onClick={() => { addToCart(product) }} className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded">Add to Cart</button>
-                                                <span className="text-gray-400 items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm">${product.price}</span>
+                                            <div className="flex justify-between items-center gap-2">
+                                                <h2 className="tracking-widest text-xs font-medium text-gray-400">{product.category}</h2>
+                                                <span className="text-gray-400 items-center leading-none text-base">${product.price}</span>
                                             </div>
+                                            <h1 className="text-lg font-medium text-gray-900 my-1.5">{product.name}</h1>
+                                            <p className="leading-relaxed">{product.description}</p>
                                         </div>
                                     </div>
                                 </div>

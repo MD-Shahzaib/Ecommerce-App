@@ -8,6 +8,7 @@ import Page404 from './components/Page404';
 // Screens.
 import ProductListing from './screens/ProductListing';
 import ProductDetails from './screens/ProductDetails';
+import Profile from './screens/Profile';
 import Cart from './screens/Cart';
 import Checkout from './screens/Checkout';
 import Login from './screens/Login';
@@ -30,6 +31,9 @@ function App() {
         <Route path="/:id" element={
           <ProtectedRoute user={user} route={<ProductDetails />} navigateTo='/login' />
         } />
+        <Route path="/profile" element={
+          <ProtectedRoute user={user} route={<Profile />} navigateTo='/login' />
+        } />
         <Route path="/cart" element={
           <ProtectedRoute user={user} route={<Cart />} navigateTo='/login' />
         } />
@@ -50,10 +54,3 @@ function App() {
 }
 
 export default App;
-
-/*
-TODOS
-- screens [productDetails, Cart, Checkout]
-- components
-- context
-*/

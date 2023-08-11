@@ -16,8 +16,8 @@ router.get('/', async (req, res) => {
 // Get-Specific-Product (Endpoint: "http://localhost:5000/api/products/:id" using "GET" (auth) Required).
 router.get('/:id', async (req, res) => {
     try {
-        const specificProduct = await Products.findById(req.params.id);
-        res.status(200).json({ message: "Success", data: specificProduct });
+        const product = await Products.findById(req.params.id);
+        res.status(200).json({ message: "Success", product });
     } catch (error) {
         res.status(500).json({ message: "Error fetching product", error });
     }
