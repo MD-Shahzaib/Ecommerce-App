@@ -17,6 +17,7 @@ const DropdownMenu = ({ userEmail, logout }) => {
                             <span className='font-medium'>{userEmail}</span><br />
                         </div>
                         <Link to="/profile" onClick={toggleMenu} role="menuitem" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">Your profile</Link>
+                        <Link to="/orders" onClick={toggleMenu} role="menuitem" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">Your orders</Link>
                         <div onClick={logout} role="menuitem" className="block px-4 py-2 text-sm text-gray-700 font-medium hover:bg-gray-100 hover:text-gray-900 cursor-pointer border-t">Sign out</div>
                     </div>
                 </div>

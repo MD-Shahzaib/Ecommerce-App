@@ -1,4 +1,3 @@
-// This code defines a React context and context provider for managing user information.
 import React, { createContext, useState, useEffect } from 'react';
 
 // Create a context to hold user-related data and functions.
@@ -42,12 +41,11 @@ export const UserContextProvider = ({ children }) => {
 
     // Function to handle user logout.
     const handleLogout = () => {
-        localStorage.removeItem('authToken'); // Remove the authToken.
-        setUser(null); // Set the user state to null.
-        window.location.reload(); // Reload to reflect the logout.
+        localStorage.removeItem('authToken');
+        setUser(null);
+        window.location.reload();
     };
 
-    // Provide the user data and logout function to the components in the context.
     return (
         <UserContext.Provider value={{ user, handleLogout }}>
             {children}

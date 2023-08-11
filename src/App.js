@@ -4,13 +4,16 @@ import { UserContext } from './context/UserContext';
 // Components.
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import Confirmation from './components/Confirmation';
 import Page404 from './components/Page404';
 // Screens.
 import ProductListing from './screens/ProductListing';
 import ProductDetails from './screens/ProductDetails';
-import Profile from './screens/Profile';
 import Cart from './screens/Cart';
 import Checkout from './screens/Checkout';
+import Orders from './screens/Orders';
+import OrderDetail from './screens/OrderDetail';
+import Profile from './screens/Profile';
 import Login from './screens/Login';
 import Register from './screens/Register';
 
@@ -31,20 +34,29 @@ function App() {
         <Route path="/:id" element={
           <ProtectedRoute user={user} route={<ProductDetails />} navigateTo='/login' />
         } />
-        <Route path="/profile" element={
-          <ProtectedRoute user={user} route={<Profile />} navigateTo='/login' />
-        } />
         <Route path="/cart" element={
           <ProtectedRoute user={user} route={<Cart />} navigateTo='/login' />
         } />
         <Route path="/checkout" element={
           <ProtectedRoute user={user} route={<Checkout />} navigateTo='/login' />
         } />
-        <Route path="/register" element={
-          <ProtectedRoute user={!user} route={<Register />} navigateTo='/' />
+        <Route path="/confirmation" element={
+          <ProtectedRoute user={user} route={<Confirmation />} navigateTo='/login' />
+        } />
+        <Route path="/orders" element={
+          <ProtectedRoute user={user} route={<Orders />} navigateTo='/login' />
+        } />
+        <Route path="/order/:id" element={
+          <ProtectedRoute user={user} route={<OrderDetail />} navigateTo='/login' />
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute user={user} route={<Profile />} navigateTo='/login' />
         } />
         <Route path="/login" element={
           <ProtectedRoute user={!user} route={<Login />} navigateTo='/' />
+        } />
+        <Route path="/register" element={
+          <ProtectedRoute user={!user} route={<Register />} navigateTo='/' />
         } />
         <Route path="*" element={<Page404 />} />
       </Routes>
@@ -54,3 +66,12 @@ function App() {
 }
 
 export default App;
+
+/*
+TODO's
+
+- cart functionality.                               (almost complete ✔)
+- checkout functionality.                           (almost complete ✔)
+- Orders and OrderDetail Screen/functionality.      (almost complete ✔)
+
+*/
