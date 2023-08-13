@@ -18,7 +18,7 @@ export const CartContextProvider = ({ children }) => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     }, [cartItems]);
 
-    // Add an item to the cart or update its quantity and price
+    /*
     const addToCart = (item) => {
         const itemInCartIndex = cartItems.findIndex((cartItem) => cartItem._id === item._id);
         if (itemInCartIndex !== -1) {
@@ -41,6 +41,43 @@ export const CartContextProvider = ({ children }) => {
             setCartItems([...cartItems, newItem]);
         }
     };
+    */
+
+
+
+
+
+    // Add an item to the cart or update its quantity and price
+    const addToCart = (item) => {
+        const itemInCartIndex = cartItems.findIndex((cartItem) => cartItem._id === item._id);
+        if (itemInCartIndex !== -1) {
+            const updatedCart = [...cartItems];
+            console.log("updatedCart", updatedCart);
+
+            const updatedItem = {
+                ...updatedCart[itemInCartIndex],
+                // quantity: updatedCart[itemInCartIndex].quantity + 1,
+                // price: (updatedCart[itemInCartIndex].quantity + 1) * item.price,
+            };
+            console.log("updatedItem", updatedCart);
+
+            updatedCart[itemInCartIndex] = updatedItem;
+            setCartItems(updatedCart);
+
+        } else {
+            const newItem = { ...item };
+            setCartItems([...cartItems, newItem]);
+        }
+    };
+
+
+
+
+
+
+
+
+
 
     // Remove an item from the cart
     const removeFromCart = (itemId) => {

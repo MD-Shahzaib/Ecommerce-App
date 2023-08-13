@@ -66,12 +66,3 @@ function App() {
 }
 
 export default App;
-
-/*
-TODO's
-
-- cart functionality.                               (almost complete ✔)
-- checkout functionality.                           (almost complete ✔)
-- Orders and OrderDetail Screen/functionality.      (almost complete ✔)
-
-*/

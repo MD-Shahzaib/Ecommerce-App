@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 
 function ProductDetails() {
@@ -8,6 +8,7 @@ function ProductDetails() {
     const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [quantity, setQuantity] = useState(1);
+    const [selectedSize, setSelectedSize] = useState('M');
 
     useEffect(() => {
         fetchProduct();
@@ -21,6 +22,11 @@ function ProductDetails() {
         } catch (error) {
             console.error('Error fetching product:', error);
         }
+    };
+
+    // handle AddToCart with the selected (size, quantity).
+    const handleAddToCart = () => {
+        addToCart({ ...product, size: selectedSize, quantity: quantity });
     };
 
     return (
@@ -48,43 +54,36 @@ function ProductDetails() {
                             {/* Product Options */}
                             <div className="flex items-center flex-wrap gap-5 pb-5 my-5 border-b-2 border-gray-100">
 
-                                {/* Color options */}
-                                <div className="flex items-center">
-                                    <span className="mr-3 text-lg text-slate-700 font-semibold">Color</span>
-                                    {/* Color buttons */}
-                                    {[null, 'gray-700', 'blue-500'].map((color, index) => (
-                                        <button key={index} className={`border-2 border-gray-300 ${color ? `bg-${color}` : ''} rounded-full w-6 h-6 focus:outline-none ml-1`}></button>
-                                    ))}
-                                </div>
-
                                 {/* Size options */}
                                 <div className="flex items-center">
                                     <span className="mr-3 text-lg font-semibold text-slate-700">Size</span>
                                     <div className="relative">
-                                        <select className="rounded border appearance-none border-gray-300 py-1 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-base pl-2 pr-8 font-medium">
+                                        <select
+                                            value={selectedSize}
+                                            onChange={(e) => setSelectedSize(e.target.value)}
+                                            className="rounded border appearance-none border-gray-300 py-1 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500 text-base pl-2 pr-8 font-medium"
+                                        >
                                             {['SM', 'M', 'L', 'XL'].map((size, index) => (
-                                                <option key={index}>{size}</option>
+                                                <option key={index} value={size}>{size}</option>
                                             ))}
                                         </select>
-                                        <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                                            <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
-                                        </span>
+                                        <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center"><svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg></span>
                                     </div>
                                 </div>
 
                                 {/* Quantity */}
-                                <div className="flex items-center">
+                                <div className="flex items-center flex-wrap">
                                     <span className="mr-3 text-lg text-slate-700 font-semibold">Quantity</span>
                                     <div className="relative">
-                                        <button onClick={() => setQuantity(Math.max(quantity - 1, 1))} className="w-8 h-9 rounded bg-gray-200 text-gray-600 focus:outline-none">-</button>
-                                        <input
-                                            type="text"
-                                            readOnly={true}
-                                            value={quantity}
-                                            onChange={(e) => setQuantity(Math.max(Number(e.target.value), 1))}
-                                            className="rounded border font-medium appearance-none border-gray-300 py-1 px-2 mx-1 text-center w-14 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-500"
-                                        />
-                                        <button onClick={() => setQuantity(quantity + 1)} className="w-8 h-9 rounded bg-gray-200 text-gray-600 focus:outline-none">+</button>
+                                        <button
+                                            onClick={() => setQuantity(Math.max(quantity - 1, 1))}
+                                            className="w-8 h-9 rounded bg-gray-200 text-gray-600 focus:outline-none"
+                                        >-</button>
+                                        <span className="rounded border font-medium border-gray-300 py-1.5 px-4 mx-1 text-center">{quantity}</span>
+                                        <button
+                                            onClick={() => setQuantity(quantity + 1)}
+                                            className="w-8 h-9 rounded bg-gray-200 text-gray-600 focus:outline-none"
+                                        >+</button>
                                     </div>
                                 </div>
 
@@ -94,11 +93,7 @@ function ProductDetails() {
                             <div className="flex items-center">
                                 <span className="title-font font-medium text-3xl text-gray-900">${product.price}</span>
                                 {/* AddToCart buttons */}
-                                <button onClick={() => { addToCart(product) }} className="flex ml-auto text-white bg-blue-500 border-0 py-2 px-4 focus:outline-none hover:bg-blue-600 rounded font-medium">Add to Cart</button>
-                                {/* Buy Now buttons */}
-                                <Link to='/checkout' className="flex text-white bg-blue-500 py-2 px-4 focus:outline-none hover:bg-blue-600 rounded ml-2 font-medium">Buy Now</Link>
-                                {/* WishList buttons */}
-                                <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-2"><svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg></button>
+                                <button onClick={handleAddToCart} className="flex ml-auto text-white bg-blue-500 border-0 py-2 px-4 focus:outline-none hover:bg-blue-600 rounded font-medium">Add to Cart</button>
                             </div>
                         </div>
                     </div>

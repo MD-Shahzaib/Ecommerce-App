@@ -32,12 +32,12 @@ function ProductListing() {
                                     <div className="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
                                         <Link to={product._id}><img className="lg:h-48 md:h-36 w-full object-cover object-center" src={product.image} alt={product.name} /></Link>
                                         <div className="p-4">
-                                            <div className="flex justify-between items-center gap-2">
-                                                <h2 className="tracking-widest text-xs font-medium text-gray-400">{product.category}</h2>
-                                                <span className="text-gray-400 items-center leading-none text-base">${product.price}</span>
+                                            <div className="flex justify-between items-center gap-2 text-gray-400 font-medium text-xs tracking-wide">
+                                                <h3>{product.category}</h3>
+                                                <span>${product.price}</span>
                                             </div>
-                                            <h1 className="text-lg font-medium text-gray-900 my-1.5">{product.name}</h1>
-                                            <p className="leading-relaxed">{product.description}</p>
+                                            <h1 className="text-lg font-medium text-gray-900 my-1">{product.name}</h1>
+                                            <p className="leading-relaxed text-xs">{product.description}</p>
                                         </div>
                                     </div>
                                 </div>
