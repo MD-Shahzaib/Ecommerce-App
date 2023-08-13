@@ -34,7 +34,7 @@ function ProductListing() {
                                         <div className="p-4">
                                             <div className="flex justify-between items-center gap-2 text-gray-400 font-medium text-xs tracking-wide">
                                                 <h3>{product.category}</h3>
-                                                <span>${product.price}</span>
+                                                <span><span className='mr-0.5'>&#8360;</span>{product.price}</span>
                                             </div>
                                             <h1 className="text-lg font-medium text-gray-900 my-1">{product.name}</h1>
                                             <p className="leading-relaxed text-xs">{product.description}</p>

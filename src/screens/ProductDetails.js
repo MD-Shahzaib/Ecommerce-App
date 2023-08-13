@@ -27,6 +27,8 @@ function ProductDetails() {
     // handle AddToCart with the selected (size, quantity).
     const handleAddToCart = () => {
         addToCart({ ...product, size: selectedSize, quantity: quantity });
+        setQuantity(1);
+        setSelectedSize("M");
     };
 
     return (
@@ -91,7 +93,7 @@ function ProductDetails() {
 
                             {/* Product Price and Actions */}
                             <div className="flex items-center">
-                                <span className="title-font font-medium text-3xl text-gray-900">${product.price}</span>
+                                <span className="title-font font-medium text-3xl text-gray-900"><span className='text-xl mr-0.5'>&#8360;</span>{product.price}</span>
                                 {/* AddToCart buttons */}
                                 <button onClick={handleAddToCart} className="flex ml-auto text-white bg-blue-500 border-0 py-2 px-4 focus:outline-none hover:bg-blue-600 rounded font-medium">Add to Cart</button>
                             </div>

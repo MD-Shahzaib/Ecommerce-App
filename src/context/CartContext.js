@@ -5,7 +5,7 @@ export const CartContext = createContext();
 export const CartContextProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
 
-    // Check if cart data exists in local storage and load it
+    // Load cart data from local storage after initial state is set
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
         if (cartData) {
@@ -18,66 +18,18 @@ export const CartContextProvider = ({ children }) => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     }, [cartItems]);
 
-    /*
-    const addToCart = (item) => {
-        const itemInCartIndex = cartItems.findIndex((cartItem) => cartItem._id === item._id);
-        if (itemInCartIndex !== -1) {
-            // If the item is already in the cart, update the quantity and total price.
-            const updatedCart = [...cartItems];
-            const updatedItem = {
-                ...updatedCart[itemInCartIndex],
-                quantity: updatedCart[itemInCartIndex].quantity + 1,
-                price: (updatedCart[itemInCartIndex].quantity + 1) * item.price,
-            };
-            updatedCart[itemInCartIndex] = updatedItem;
-            setCartItems(updatedCart);
-        } else {
-            // If the item is not in the cart, add it with quantity 1 and calculate the total price.
-            const newItem = {
-                ...item,
-                quantity: 1,
-                price: item.price,
-            };
-            setCartItems([...cartItems, newItem]);
-        }
-    };
-    */
-
-
-
-
-
-    // Add an item to the cart or update its quantity and price
     const addToCart = (item) => {
         const itemInCartIndex = cartItems.findIndex((cartItem) => cartItem._id === item._id);
         if (itemInCartIndex !== -1) {
             const updatedCart = [...cartItems];
-            console.log("updatedCart", updatedCart);
-
-            const updatedItem = {
-                ...updatedCart[itemInCartIndex],
-                // quantity: updatedCart[itemInCartIndex].quantity + 1,
-                // price: (updatedCart[itemInCartIndex].quantity + 1) * item.price,
-            };
-            console.log("updatedItem", updatedCart);
-
-            updatedCart[itemInCartIndex] = updatedItem;
+            updatedCart[itemInCartIndex].quantity += item.quantity;
+            updatedCart[itemInCartIndex].size = item.size;
             setCartItems(updatedCart);
-
         } else {
-            const newItem = { ...item };
+            const newItem = { ...item, quantity: item.quantity, size: item.size };
             setCartItems([...cartItems, newItem]);
         }
     };
-
-
-
-
-
-
-
-
-
 
     // Remove an item from the cart
     const removeFromCart = (itemId) => {
@@ -112,3 +64,11 @@ export const CartContextProvider = ({ children }) => {
         </CartContext.Provider>
     );
 };
+
+/*
+(Bugs) 
+
+1- when page reload cart empty fix this todo.
+2- subtotal gone to checkout instead of total fix this todo.
+
+*/

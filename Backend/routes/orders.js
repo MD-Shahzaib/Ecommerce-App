@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Orders = require('../models/Orders');
+const verifyToken = require('../middlewares/verifyToken');
 
 // Get-Orders (Endpoint: "http://localhost:5000/api/orders" using "GET" (auth) Required).
 router.get('/', async (req, res) => {
@@ -23,16 +24,16 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create-Order (Endpoint: "http://localhost:5000/api/orders" using "POST" (auth) Required).
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
     try {
-        const order = new Orders(req.body);
+        const { products, address, amount } = req.body;
+        const order = new Orders({ userId: req.decoded._id, products, address, amount });
         await order.save();
         res.status(201).json({ message: 'Success', order });
     } catch (error) {
         res.status(500).json({ message: "Error on add order", error });
     }
 });
-
 
 // Update-Order (Endpoint: "http://localhost:5000/api/orders/:id" using "PUT" (auth) Required).
 router.put('/:id', async (req, res) => {
