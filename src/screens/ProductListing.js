@@ -15,7 +15,7 @@ function ProductListing() {
             const productData = await response.json();
             setProducts(productData.products);
         } catch (error) {
-            console.error('Error fetching products:', error);
+            console.log('Error fetching products:', error);
         } finally {
             setLoading(false);
         }

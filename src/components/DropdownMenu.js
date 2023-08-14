@@ -8,7 +8,7 @@ const DropdownMenu = ({ userEmail, logout }) => {
     const toggleMenu = () => setIsOpen(!isOpen);
     return (
         <div className="relative inline-block text-left">
-            <MdAccountCircle onClick={toggleMenu} className='text-3xl cursor-pointer hover:text-white' />
+            <MdAccountCircle onClick={toggleMenu} className='text-4xl cursor-pointer hover:text-white' />
             {isOpen && (
                 <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
                     <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">

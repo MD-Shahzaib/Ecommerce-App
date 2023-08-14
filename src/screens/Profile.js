@@ -11,8 +11,8 @@ const Profile = () => {
     const [firstName, setFirstName] = useState(user.name);
     const [lastName, setLastName] = useState('-');
     const [username, setUsername] = useState(`@${user.name}`);
-    const [phone, setPhone] = useState('123-456-7890');
-    const [profession, setProfession] = useState('Software Developer');
+    const [phone, setPhone] = useState('-');
+    const [profession, setProfession] = useState('-');
 
     const handleEdit = () => {
         setEditMode(true);

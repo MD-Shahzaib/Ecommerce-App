@@ -13,11 +13,22 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Get User-Orders (Endpoint: "http://localhost:5000/api/orders/userorders" using "GET" (auth required).
+router.get("/userorders", verifyToken, async (req, res) => {
+    try {
+        const userId = req.decoded._id
+        const orders = await Orders.find({ userId });
+        res.status(200).json({ message: "Success", orders });
+    } catch (err) {
+        res.status(500).json({ message: "Your orders not found" });
+    }
+});
+
 // Get-Specific-Order (Endpoint: "http://localhost:5000/api/orders/:id" using "GET" (auth) Required).
-router.get('/:id', async (req, res) => {
+router.get('/:id', verifyToken, async (req, res) => {
     try {
         const specificOrder = await Orders.findById(req.params.id);
-        res.status(200).json({ message: "Success", data: specificOrder });
+        res.status(200).json({ message: "Success", specificOrder });
     } catch (error) {
         res.status(500).json({ message: "Error fetching order", error });
     }

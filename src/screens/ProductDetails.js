@@ -20,7 +20,7 @@ function ProductDetails() {
             const data = await response.json();
             setProduct(data.product);
         } catch (error) {
-            console.error('Error fetching product:', error);
+            console.log('Error fetching product:', error);
         }
     };
 

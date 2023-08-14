@@ -5,6 +5,7 @@ export const CartContext = createContext();
 export const CartContextProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
 
+    // 1-bug local-storage was clear after window load.
     // Load cart data from local storage after initial state is set
     useEffect(() => {
         const cartData = localStorage.getItem('cart');
@@ -12,8 +13,7 @@ export const CartContextProvider = ({ children }) => {
             setCartItems(JSON.parse(cartData));
         }
     }, []);
-
-    // Save cart data to local storage when it changes
+    // Save cart data to local storage when it changes.
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cartItems));
     }, [cartItems]);
@@ -64,11 +64,3 @@ export const CartContextProvider = ({ children }) => {
         </CartContext.Provider>
     );
 };
-
-/*
-(Bugs) 
-
-1- when page reload cart empty fix this todo.
-2- subtotal gone to checkout instead of total fix this todo.
-
-*/

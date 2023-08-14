@@ -19,18 +19,26 @@ const Checkout = () => {
         setShippingInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
     };
 
-    // Grab OrderTotal.
-    const orderTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    // Grab OrderTotal: (cartTotal + deliveryTax - discount) same as cart subTotal method.
+    const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+    const deliveryTax = Math.ceil(cartTotal * 0.1);
+    const discount = Math.ceil((cartTotal + deliveryTax) * 0.1);
+    const orderTotal = cartTotal + deliveryTax - discount;
 
-    const handleSubmit = async (e) => {
+    // handle Order Placed.
+    const handleOrderPlaced = async (e) => {
         try {
             e.preventDefault();
             const orderData = {
-                products: cartItems.map(item => ({ productId: item._id, quantity: item.quantity })),
+                products: cartItems.map(item => ({
+                    productId: item._id,
+                    productName: item.name,
+                    productQuantity: item.quantity,
+                    productPrice: item.price
+                })),
                 address: shippingInfo.address,
                 amount: orderTotal,
             };
-
             // Send the data to the server using the fetch function.
             const response = await fetch('http://localhost:5000/api/orders', {
                 method: 'POST',
@@ -41,11 +49,7 @@ const Checkout = () => {
                 body: JSON.stringify(orderData)
             });
 
-            console.log('Shipping Info:', shippingInfo);
-            console.log('Cart Items:', cartItems);
-
             if (response.status === 201) {
-                console.log("Order Placed Successfully");
                 clearCart(); // Clear the cart after successful checkout
                 navigate('/confirmation'); // Navigate to confirmation screen
             } else {
@@ -63,7 +67,7 @@ const Checkout = () => {
     return (
         <div className="bg-slate-200 py-10">
             <div className="container mx-auto px-5">
-                <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded-md max-w-2xl mx-auto">
+                <form onSubmit={handleOrderPlaced} className="bg-white p-6 shadow-md rounded-md max-w-2xl mx-auto">
                     <h1 className="text-3xl font-semibold pb-2 mb-4 border-b-2 border-blue-500">Checkout</h1>
 
                     {/* Shipping Information */}

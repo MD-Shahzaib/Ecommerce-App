@@ -9,7 +9,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <React.StrictMode>
-    {/* Wrap the app with UserContextProvider and CartContextProvider */}
     <UserContextProvider>
       <CartContextProvider>
         <App />
