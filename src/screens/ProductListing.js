@@ -11,7 +11,7 @@ function ProductListing() {
 
     const fetchProducts = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/products');
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/products`);
             const productData = await response.json();
             setProducts(productData.products);
         } catch (error) {

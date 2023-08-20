@@ -18,7 +18,7 @@ export const UserContextProvider = ({ children }) => {
                 const token = localStorage.getItem('authToken');
                 if (token) {
                     // Send a request to fetch the user profile using the token.
-                    const response = await fetch("http://localhost:5000/api/users/profile", {
+                    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/users/profile`, {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     if (!response.ok) {
@@ -55,7 +55,7 @@ export const UserContextProvider = ({ children }) => {
                 const token = localStorage.getItem('authToken');
                 if (token) {
                     // Send a request to fetch the user orders using the token.
-                    const response = await fetch("http://localhost:5000/api/orders/userorders", {
+                    const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/orders/userorders`, {
                         headers: { Authorization: `Bearer ${token}` },
                     });
                     if (!response.ok) {

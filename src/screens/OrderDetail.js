@@ -12,7 +12,7 @@ const OrderDetail = () => {
     // Fetch order data based on orderId from the server.
     const fetchSingleOrder = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/orders/${id}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/orders/${id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             if (response.ok) {

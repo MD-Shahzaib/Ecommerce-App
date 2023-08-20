@@ -16,7 +16,7 @@ function ProductDetails() {
 
     const fetchProduct = async () => {
         try {
-            const response = await fetch(`http://localhost:5000/api/products/${id}`);
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/products/${id}`);
             const data = await response.json();
             setProduct(data.product);
         } catch (error) {
